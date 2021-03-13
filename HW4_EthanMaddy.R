@@ -78,7 +78,8 @@ hist(drawsback, breaks = 25)
 
 # Question no. 3
 # a. 
-install.packages("extraDistr")
+
+# install.packages("extraDistr")
 library(extraDistr)
 
 # 500,000 draws (generalized Student's t)
@@ -94,7 +95,7 @@ hist(studentt, breaks = 25)
 # b. 
 samp = length(df$ihsfruitveg)
 df2 = samp - 1
-ybar = mean(var(df$ihsfruitveg))
+ybar = mean(df$ihsfruitveg)
 s_sq = var(df$ihsfruitveg)
 
 # location & scale parameters
@@ -103,7 +104,11 @@ scale_para = s_sq*sqrt(1 + (1/samp))
 
 # 1000 draws from generalized Student's t
 fruit_genstudentt <- rlst(n = 1000, df = df2, mu = location_para, sigma = scale_para)
-median(fruit_genstudentt) # 2.723061
+median(fruit_genstudentt) # 2.139342, similar to posterior median
+
+# see from 2d
+median(post_norm_mu)
+# 2.141523
 
 # Question no. 4
 
@@ -154,6 +159,7 @@ c(y1/n,y2/n,y3/n,y4/n,y5/n,y6/n,y7/n)
 # 0.102 0.168 0.202 0.406 0.064 0.040 0.018
 
 # Side-by-side comparison 
-
 # mean of draws:      0.10233115 0.16803706 0.20187300 0.40597315 0.06396545 0.03988502 0.01793518
 # relative frequency: 0.102      0.168      0.202      0.406      0.064      0.040      0.018
+
+# Means of the posterior draws are similar to the relative frequencies in the data
