@@ -278,12 +278,25 @@ jags.m <- jags.model(textConnection(jags_model), data=dat, n.chains=5)
 update(jags.m, n.iter=75000)
 samp <- coda.samples(jags.m, variable.names=params, n.iter=10000)
 
-# not sure if this is right
 # Store posterior medians
 post_medians<-summary(samp)$quantiles[,3]
-post_medians
 
-# beta02      beta03      beta21      beta22      beta23      beta24      beta31      beta32 
-# 1.93178677 -2.02426788 -0.17663713 -0.04613809 -1.92497443 -0.30130458 -0.07667562 -0.05790083 
-# beta33      beta34 
-# 1.03469261  1.34629288 
+sum_prob1<-exp(0)
+sum_prob2<-exp(post_medians[1] + post_medians[3]*x1 + post_medians[4]*x2 + post_medians[5]*x3 + post_medians[6]*x4)
+sum_prob3<-exp(post_medians[2] + post_medians[6]*x1 + post_medians[7]*x2 + post_medians[8]*x3 + post_medians[9]*x4)
+totsum<-sum_prob1+sum_prob2+sum_prob3
+
+post_prob1<-sum_prob1/totsum
+post_prob2<-sum_prob2/totsum
+post_prob3<-sum_prob3/totsum
+
+post_prob1
+post_prob2
+post_prob3
+
+mean(post_prob1)
+# 0.4672315
+mean(post_prob2)
+# 0.4418245
+mean(post_prob3)
+# 0.09094403
